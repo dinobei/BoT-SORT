@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from collections import deque
 
-from tracker import matching
-from tracker.gmc import GMC
-from tracker.basetrack import BaseTrack, TrackState
-from tracker.kalman_filter import KalmanFilter
+from . import matching
+from .gmc import GMC
+from .basetrack import BaseTrack, TrackState
+from .kalman_filter import KalmanFilter
 
-from fast_reid.fast_reid_interfece import FastReIDInterface
+# from fast_reid.fast_reid_interfece import FastReIDInterface
 
 
 class STrack(BaseTrack):
@@ -17,7 +17,7 @@ class STrack(BaseTrack):
     def __init__(self, tlwh, score, cls, feat=None, feat_history=50):
 
         # wait activate
-        self._tlwh = np.asarray(tlwh, dtype=np.float)
+        self._tlwh = np.asarray(tlwh, dtype=np.float64)
         self.kalman_filter = None
         self.mean, self.covariance = None, None
         self.is_activated = False
@@ -249,7 +249,7 @@ class BoTSORT(object):
         self.appearance_thresh = args.appearance_thresh
 
         if args.with_reid:
-            self.encoder = FastReIDInterface(args.fast_reid_config, args.fast_reid_weights, args.device)
+            pass # self.encoder = FastReIDInterface(args.fast_reid_config, args.fast_reid_weights, args.device)
 
         self.gmc = GMC(method=args.cmc_method, verbose=[args.name, args.ablation])
 
